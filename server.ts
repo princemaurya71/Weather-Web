@@ -1,7 +1,6 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
-import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 
 dotenv.config();
@@ -12,7 +11,7 @@ const PORT = 3000;
 app.use(express.json());
 
 // Initialize Gemini AI Client
-const apiKey = process.env.GEMINI_API_KEY;
+const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
 let aiClient: GoogleGenAI | null = null;
 
 if (apiKey) {
@@ -225,7 +224,7 @@ app.get("/api/weather", async (req, res) => {
     country = geo.country;
 
     // Weather API selection: prioritize OpenWeatherMap if key is active
-    const owmKey = process.env.OPENWEATHERMAP_API_KEY;
+    const owmKey = process.env.OPENWEATHER_API_KEY || process.env.OPENWEATHERMAP_API_KEY;
     if (owmKey && owmKey.trim() !== "") {
       try {
         // Fetch current weather and 5-day / 3-hour forecast in parallel
@@ -578,6 +577,7 @@ app.post("/api/ai-summary", async (req, res) => {
 // Configure Vite or Static Asset delivery
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
@@ -596,4 +596,9 @@ async function startServer() {
   });
 }
 
-startServer();
+// Only start standard Express listener when running locally or on self-hosted environments (not on Vercel serverless)
+if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
+  startServer();
+}
+
+export default app;
