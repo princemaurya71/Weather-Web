@@ -1,0 +1,6 @@
+{
+  "name": "Weather Forecast & Interactive Radar Map",
+  "description": "Real-time weather forecast website using geolocation, featuring animated weather data and an interactive precipitation radar map.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
