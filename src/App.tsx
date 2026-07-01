@@ -123,22 +123,48 @@ export default function App() {
       <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-blue-500/5 to-transparent pointer-events-none" />
 
       {/* Main Header / Navigation Container */}
-      <header className="max-w-7xl mx-auto px-4 py-5 flex flex-col md:flex-row items-center justify-between gap-4 border-b border-slate-200/50 dark:border-slate-800/40 relative z-20">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center shadow-lg shadow-cyan-500/30">
-            <div className="w-4 h-4 bg-slate-950 rounded-full"></div>
+      <header className="max-w-7xl mx-auto px-4 py-4 md:py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-200/50 dark:border-slate-800/40 relative z-20">
+        <div className="w-full md:w-auto flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center shadow-lg shadow-cyan-500/30">
+              <div className="w-4 h-4 bg-slate-950 rounded-full"></div>
+            </div>
+            <div>
+              <span className="text-xl font-black tracking-tighter uppercase text-slate-900 dark:text-slate-100 block">SkyCast</span>
+              <span className="text-[9px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-[0.2em] block -mt-1">India</span>
+            </div>
           </div>
-          <div>
-            <span className="text-xl font-black tracking-tighter uppercase text-slate-800 dark:text-slate-100 block">SkyCast</span>
-            <span className="text-[9px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-[0.2em] block -mt-1">India</span>
+
+          {/* Utility bar for Theme and Reload triggers on Mobile */}
+          <div className="flex md:hidden items-center gap-2">
+            <button
+              onClick={() => fetchWeather(lat, lon)}
+              disabled={isLoading}
+              className="p-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 active:scale-95 transition-all disabled:opacity-50"
+              title="Refresh weather data"
+              id="refresh-weather-button-mobile"
+            >
+              <RefreshCw className={`h-4 w-4 text-slate-600 dark:text-slate-300 ${isLoading ? "animate-spin" : ""}`} />
+            </button>
+
+            <button
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className="p-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 active:scale-95 transition-all text-slate-600 dark:text-slate-300"
+              aria-label={isDarkMode ? "Switch to Light Theme" : "Switch to Dark Theme"}
+              id="theme-toggle-button-mobile"
+            >
+              {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
           </div>
         </div>
 
         {/* Global Location Autocomplete Selector */}
-        <LocationSelector onLocationSelect={handleLocationSelect} isLoading={isLoading} />
+        <div className="w-full md:max-w-lg md:flex-1">
+          <LocationSelector onLocationSelect={handleLocationSelect} isLoading={isLoading} />
+        </div>
 
-        {/* Utility bar for Theme and Reload triggers */}
-        <div className="flex items-center gap-2">
+        {/* Utility bar for Theme and Reload triggers on Desktop */}
+        <div className="hidden md:flex items-center gap-2">
           <button
             onClick={() => fetchWeather(lat, lon)}
             disabled={isLoading}

@@ -118,7 +118,7 @@ export default function LocationSelector({ onLocationSelect, isLoading }: Locati
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search for a city (e.g. Mumbai, Delhi)..."
+            placeholder="Search for a city..."
             className="w-full pl-10 pr-10 py-2.5 rounded-2xl text-sm font-semibold border-2 border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:outline-none focus:border-cyan-500/50 transition-colors placeholder-slate-500"
             id="city-search-input"
           />
